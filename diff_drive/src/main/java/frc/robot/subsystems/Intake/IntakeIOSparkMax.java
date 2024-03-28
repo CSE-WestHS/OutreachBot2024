@@ -26,7 +26,6 @@ import edu.wpi.first.math.util.Units;
  * "CANSparkFlex".
  */
 public class IntakeIOSparkMax implements IntakeIO {
-  private static final double GEAR_RATIO = 1.5;
 
   private final CANSparkMax leader = new CANSparkMax(0, MotorType.kBrushless);
   private final CANSparkMax follower = new CANSparkMax(1, MotorType.kBrushless);
@@ -52,9 +51,11 @@ public class IntakeIOSparkMax implements IntakeIO {
 
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
-    inputs.positionRad = Units.rotationsToRadians(encoder.getPosition() / GEAR_RATIO);
+    inputs.positionRad =
+        Units.rotationsToRadians(encoder.getPosition() / frc.robot.Constants.GEAR_RATIO);
     inputs.velocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
+        Units.rotationsPerMinuteToRadiansPerSecond(
+            encoder.getVelocity() / frc.robot.Constants.GEAR_RATIO);
     inputs.appliedVolts = leader.getAppliedOutput() * leader.getBusVoltage();
     inputs.currentAmps = new double[] {leader.getOutputCurrent(), follower.getOutputCurrent()};
   }
@@ -67,7 +68,8 @@ public class IntakeIOSparkMax implements IntakeIO {
   @Override
   public void setVelocity(double velocityRadPerSec, double ffVolts) {
     pid.setReference(
-        Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
+        Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec)
+            * frc.robot.Constants.GEAR_RATIO,
         ControlType.kVelocity,
         0,
         ffVolts,

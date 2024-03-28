@@ -25,7 +25,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -39,8 +38,6 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
-  public static final double WHEEL_RADIUS = Units.inchesToMeters(3.0);
-  public static final double TRACK_WIDTH = Units.inchesToMeters(26.0);
 
   // TODO: NON-SIM FEEDFORWARD GAINS MUST BE TUNED
   // Consider using SysId routines defined in RobotContainer
@@ -52,7 +49,7 @@ public class Drive extends SubsystemBase {
   private final DifferentialDriveOdometry odometry =
       new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
   private final DifferentialDriveKinematics kinematics =
-      new DifferentialDriveKinematics(TRACK_WIDTH);
+      new DifferentialDriveKinematics(Constants.TRACK_WIDTH);
   private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(KS, KV);
   private final SysIdRoutine sysId;
 
@@ -118,8 +115,8 @@ public class Drive extends SubsystemBase {
   public void driveVelocity(double leftMetersPerSec, double rightMetersPerSec) {
     Logger.recordOutput("Drive/LeftVelocitySetpointMetersPerSec", leftMetersPerSec);
     Logger.recordOutput("Drive/RightVelocitySetpointMetersPerSec", rightMetersPerSec);
-    double leftRadPerSec = leftMetersPerSec / WHEEL_RADIUS;
-    double rightRadPerSec = rightMetersPerSec / WHEEL_RADIUS;
+    double leftRadPerSec = leftMetersPerSec / Constants.WHEEL_RADIUS;
+    double rightRadPerSec = rightMetersPerSec / Constants.WHEEL_RADIUS;
     io.setVelocity(
         leftRadPerSec,
         rightRadPerSec,
@@ -162,25 +159,25 @@ public class Drive extends SubsystemBase {
   /** Returns the position of the left wheels in meters. */
   @AutoLogOutput
   public double getLeftPositionMeters() {
-    return inputs.leftPositionRad * WHEEL_RADIUS;
+    return inputs.leftPositionRad * Constants.WHEEL_RADIUS;
   }
 
   /** Returns the position of the right wheels in meters. */
   @AutoLogOutput
   public double getRightPositionMeters() {
-    return inputs.rightPositionRad * WHEEL_RADIUS;
+    return inputs.rightPositionRad * Constants.WHEEL_RADIUS;
   }
 
   /** Returns the velocity of the left wheels in meters/second. */
   @AutoLogOutput
   public double getLeftVelocityMetersPerSec() {
-    return inputs.leftVelocityRadPerSec * WHEEL_RADIUS;
+    return inputs.leftVelocityRadPerSec * Constants.WHEEL_RADIUS;
   }
 
   /** Returns the velocity of the right wheels in meters/second. */
   @AutoLogOutput
   public double getRightVelocityMetersPerSec() {
-    return inputs.rightVelocityRadPerSec * WHEEL_RADIUS;
+    return inputs.rightVelocityRadPerSec * Constants.WHEEL_RADIUS;
   }
 
   /** Returns the average velocity in radians/second. */
