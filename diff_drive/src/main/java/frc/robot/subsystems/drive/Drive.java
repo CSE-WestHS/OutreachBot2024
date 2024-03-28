@@ -38,7 +38,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
-
+  public static final double WHEEL_RADIUS = Constants.WHEEL_RADIUS;
   // TODO: NON-SIM FEEDFORWARD GAINS MUST BE TUNED
   // Consider using SysId routines defined in RobotContainer
   private static final double KS = Constants.currentMode == Mode.SIM ? 0.0 : 0.0;
