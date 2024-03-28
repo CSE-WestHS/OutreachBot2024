@@ -45,7 +45,7 @@ public class Drive extends SubsystemBase {
   // Consider using SysId routines defined in RobotContainer
   private static final double KS = Constants.currentMode == Mode.SIM ? 0.0 : 0.0;
   private static final double KV = Constants.currentMode == Mode.SIM ? 0.227 : 0.0;
-  
+
   private final DriveIO io;
   private final DriveIOInputsAutoLogged inputs = new DriveIOInputsAutoLogged();
   private final DifferentialDriveOdometry odometry =
