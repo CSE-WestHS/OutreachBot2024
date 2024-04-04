@@ -48,9 +48,9 @@ public class Drive extends SubsystemBase {
 
   private final DriveIO io;
   private final DriveIOInputsAutoLogged inputs = new DriveIOInputsAutoLogged();
-  private final DifferentialDriveOdometry odometry =
+  public static final DifferentialDriveOdometry odometry =
       new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
-  private final DifferentialDriveKinematics kinematics =
+  public static final DifferentialDriveKinematics kinematics =
       new DifferentialDriveKinematics(Constants.TRACK_WIDTH);
   private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(KS, KV);
   private final SysIdRoutine sysId;
