@@ -63,8 +63,6 @@ public class DriveIOSim implements DriveIO {
     inputs.rightVelocityRadPerSec = sim.getRightVelocityMetersPerSecond() / Drive.WHEEL_RADIUS;
     inputs.rightAppliedVolts = rightAppliedVolts;
     inputs.rightCurrentAmps = new double[] {sim.getRightCurrentDrawAmps()};
-
-    inputs.gyroYaw = sim.getHeading();
   }
 
   @Override

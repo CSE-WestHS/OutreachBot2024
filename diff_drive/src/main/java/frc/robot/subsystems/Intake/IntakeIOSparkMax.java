@@ -27,8 +27,8 @@ import edu.wpi.first.math.util.Units;
  */
 public class IntakeIOSparkMax implements IntakeIO {
 
-  private final CANSparkMax leader = new CANSparkMax(0, MotorType.kBrushless);
-  private final CANSparkMax follower = new CANSparkMax(1, MotorType.kBrushless);
+  private final CANSparkMax leader = new CANSparkMax(7, MotorType.kBrushless);
+  private final CANSparkMax follower = new CANSparkMax(8, MotorType.kBrushless);
   private final RelativeEncoder encoder = leader.getEncoder();
   private final SparkPIDController pid = leader.getPIDController();
 
