@@ -25,7 +25,7 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static final double GEAR_RATIO = 1.5;
-  public static final Mode currentMode = Mode.REAL;
+  public static final Mode currentMode = Mode.SIM;
   public static final double WHEEL_RADIUS = Units.inchesToMeters(3.0);
   public static final double TRACK_WIDTH = Units.inchesToMeters(26.0);
 

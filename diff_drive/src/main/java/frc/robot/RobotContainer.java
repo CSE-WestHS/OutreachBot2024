@@ -65,8 +65,9 @@ public class RobotContainer {
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
         drive = new Drive(new DriveIOSim());
-        // flywheel = new Flywheel(new FlywheelIOSim());
-        flywheel = null;
+        flywheel = new Flywheel(new FlywheelIOSim());
+        
+
         break;
 
       default:
