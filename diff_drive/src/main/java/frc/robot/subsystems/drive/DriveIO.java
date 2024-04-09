@@ -28,7 +28,7 @@ public interface DriveIO {
     public double rightVelocityRadPerSec = 0.0;
     public double rightAppliedVolts = 0.0;
     public double[] rightCurrentAmps = new double[] {};
-    public Rotation2d gyroYaw = new Rotation2d();
+    public Rotation2d gyroYaw = Rotation2d.fromDegrees(-GyroIONavX.NavX.getYaw());
   }
 
   /** Updates the set of loggable inputs. */

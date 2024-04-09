@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 /** IO implementation for Pigeon2 */
 public class GyroIONavX implements GyroIO {
-  private final AHRS NavX = new AHRS(Port.kMXP);
+  public static final AHRS NavX = new AHRS(Port.kMXP);
 
   public GyroIONavX() {
     NavX.reset();
