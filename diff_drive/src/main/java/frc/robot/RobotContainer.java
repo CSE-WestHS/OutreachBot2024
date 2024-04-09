@@ -133,7 +133,6 @@ public class RobotContainer {
             Commands.startEnd(
                 () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
     controller.b().whileTrue(Commands.run(() -> shooter.runVelocity(2200)));
-    controller.povLeft().onTrue(Commands.run(() -> drive.turn()));
   }
 
   /**
