@@ -105,7 +105,10 @@ public class Drive extends SubsystemBase {
     Logger.processInputs("Drive", inputs);
 
     // Update odometry
-    odometry.update(inputs.gyroYaw, getLeftPositionMeters(), getRightPositionMeters());
+    odometry.update(
+        Rotation2d.fromDegrees(GyroIONavX.NavX.getYaw()),
+        getLeftPositionMeters(),
+        getRightPositionMeters());
   }
 
   /** Run open loop at the specified voltage. */
@@ -128,8 +131,8 @@ public class Drive extends SubsystemBase {
 
   /** Run open loop based on stick positions. */
   public void driveArcade(double xSpeed, double zRotation) {
-    var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, zRotation, true);
-    // var speeds = DifferentialDrive.tankDriveIK(xSpeed, ySpeed, true);
+    // var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, zRotation, true);
+    var speeds = DifferentialDrive.curvatureDriveIK(xSpeed, zRotation, true);
     io.setVoltage(speeds.left * 12.0, speeds.right * 12.0);
   }
 
