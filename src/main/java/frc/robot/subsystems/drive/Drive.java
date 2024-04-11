@@ -133,7 +133,7 @@ public class Drive extends SubsystemBase {
   }
 
   /** Run open loop based on stick positions. */
-  public void driveArcade(double xSpeed, double zRotation) {
+  public void CurvatureDrive(double xSpeed, double zRotation) {
 
     // var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, zRotation, true);
     var speeds = DifferentialDrive.curvatureDriveIK(xSpeed, zRotation, true);

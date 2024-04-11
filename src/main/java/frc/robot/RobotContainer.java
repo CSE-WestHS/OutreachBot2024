@@ -138,7 +138,7 @@ public class RobotContainer {
     drive.setDefaultCommand(
         Commands.run(
             () ->
-                drive.driveArcade(
+                drive.CurvatureDrive(
                     /*-controller.getLeftY()*/ (controller.getLeftTriggerAxis()),
                     -controller.getRightY() / 2),
             drive));
@@ -155,7 +155,7 @@ public class RobotContainer {
         .whileTrue(
             Commands.run(
                 () ->
-                    drive.driveArcade(-controller.getRightTriggerAxis(), -controller.getRightY())));
+                    drive.CurvatureDrive(-controller.getRightTriggerAxis(), -controller.getRightY())));
   }
 
   /**
