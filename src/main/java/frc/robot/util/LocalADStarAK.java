@@ -17,7 +17,7 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 // NOTE: This file is available at
 // https://gist.github.com/mjansen4857/a8024b55eb427184dbd10ae8923bd57d
-/**This is for pathplanner, it does not need modified */ 
+/** This is for pathplanner, it does not need modified */
 public class LocalADStarAK implements Pathfinder {
   private final ADStarIO io = new ADStarIO();
 
