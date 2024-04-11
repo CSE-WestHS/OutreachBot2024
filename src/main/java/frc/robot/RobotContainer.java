@@ -138,7 +138,6 @@ public class RobotContainer {
     drive.setDefaultCommand(
         Commands.run(
             () ->
-            
                 drive.driveArcade(
                     /*-controller.getLeftY()*/ (controller.getLeftTriggerAxis()),
                     -controller.getRightY() / 2),
@@ -151,6 +150,12 @@ public class RobotContainer {
 
     controller.b().whileTrue(Commands.run(() -> shooter.runVelocity(2200)));
     controller.x().whileTrue(Commands.run(() -> intake.runVelocity(2500)));
+    controller
+        .rightTrigger()
+        .whileTrue(
+            Commands.run(
+                () ->
+                    drive.driveArcade(-controller.getRightTriggerAxis(), -controller.getRightY())));
   }
 
   /**
