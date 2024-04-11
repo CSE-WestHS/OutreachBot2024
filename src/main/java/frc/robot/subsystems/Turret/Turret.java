@@ -30,7 +30,7 @@ public class Turret extends SubsystemBase {
   private final SimpleMotorFeedforward ffModel;
   private final SysIdRoutine sysId;
 
-  /** Creates a new Flywheel. */
+  /** Creates a new Turret. */
   public Turret(TurretIO io) {
     this.io = io;
 

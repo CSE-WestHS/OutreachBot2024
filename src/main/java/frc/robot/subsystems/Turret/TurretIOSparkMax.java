@@ -29,26 +29,21 @@ public class TurretIOSparkMax implements TurretIO {
   private static final double GEAR_RATIO = 1.5;
 
   private final CANSparkMax leader = new CANSparkMax(0, MotorType.kBrushless);
-  private final CANSparkMax follower = new CANSparkMax(1, MotorType.kBrushless);
   private final RelativeEncoder encoder = leader.getEncoder();
   private final SparkPIDController pid = leader.getPIDController();
 
   public TurretIOSparkMax() {
     leader.restoreFactoryDefaults();
-    follower.restoreFactoryDefaults();
-
+    
     leader.setCANTimeout(250);
-    follower.setCANTimeout(250);
-
+    
     leader.setInverted(false);
-    follower.follow(leader, false);
-
+    
     leader.enableVoltageCompensation(12.0);
     leader.setSmartCurrentLimit(30);
 
     leader.burnFlash();
-    follower.burnFlash();
-  }
+      }
 
   @Override
   public void updateInputs(TurretIOInputs inputs) {
@@ -56,8 +51,7 @@ public class TurretIOSparkMax implements TurretIO {
     inputs.velocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = leader.getAppliedOutput() * leader.getBusVoltage();
-    inputs.currentAmps = new double[] {leader.getOutputCurrent(), follower.getOutputCurrent()};
-  }
+    inputs.currentAmps = new double[] {leader.getOutputCurrent()};   }
 
   @Override
   public void setVoltage(double volts) {
