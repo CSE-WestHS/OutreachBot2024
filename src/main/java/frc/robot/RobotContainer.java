@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeIOSim;
+import frc.robot.subsystems.Intake.IntakeIOSparkMax;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterIOSim;
 
@@ -68,6 +69,7 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         drive = new Drive(new DriveIOSparkMax());
         flywheel = new Flywheel(new FlywheelIOSparkMax());
+        intake = new Intake(new IntakeIOSparkMax());
         // drive = new Drive(new DriveIOTalonFX());
         // flywheel = new Flywheel(new FlywheelIOTalonFX());
         break;
