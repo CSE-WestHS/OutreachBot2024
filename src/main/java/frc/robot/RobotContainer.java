@@ -155,7 +155,8 @@ public class RobotContainer {
         .whileTrue(
             Commands.run(
                 () ->
-                    drive.CurvatureDrive(-controller.getRightTriggerAxis(), -controller.getRightY())));
+                    drive.CurvatureDrive(
+                        -controller.getRightTriggerAxis(), -controller.getRightY() / 2)));
   }
 
   /**
