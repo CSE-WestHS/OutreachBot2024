@@ -31,6 +31,7 @@ public final class Constants {
 
   public static final int TURRET_CAN_ID = 17;
   public static final double TURRET_GEAR_RATIO = 180;
+
   public static enum Mode {
     /** Running on a real robot. */
     REAL,

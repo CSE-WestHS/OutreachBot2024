@@ -27,7 +27,7 @@ import frc.robot.Constants;
  * "CANSparkFlex".
  */
 public class TurretIOSparkMax implements TurretIO {
-  private static final double GEAR_RATIO = 1.5;
+  private static final double GEAR_RATIO = Constants.TURRET_GEAR_RATIO;
 
   private final CANSparkMax leader = new CANSparkMax(Constants.TURRET_CAN_ID, MotorType.kBrushless);
   private final RelativeEncoder encoder = leader.getEncoder();
@@ -35,16 +35,16 @@ public class TurretIOSparkMax implements TurretIO {
 
   public TurretIOSparkMax() {
     leader.restoreFactoryDefaults();
-    
+
     leader.setCANTimeout(250);
-    
+
     leader.setInverted(false);
-    
+
     leader.enableVoltageCompensation(12.0);
     leader.setSmartCurrentLimit(30);
 
     leader.burnFlash();
-      }
+  }
 
   @Override
   public void updateInputs(TurretIOInputs inputs) {
@@ -52,7 +52,8 @@ public class TurretIOSparkMax implements TurretIO {
     inputs.velocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = leader.getAppliedOutput() * leader.getBusVoltage();
-    inputs.currentAmps = new double[] {leader.getOutputCurrent()};   }
+    inputs.currentAmps = new double[] {leader.getOutputCurrent()};
+  }
 
   @Override
   public void setVoltage(double volts) {
