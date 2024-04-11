@@ -29,6 +29,7 @@ public final class Constants {
   public static final double WHEEL_RADIUS = Units.inchesToMeters(3.0);
   public static final double TRACK_WIDTH = Units.inchesToMeters(26.0);
 
+  public static final int TURRET_CAN_ID = 17;
   public static enum Mode {
     /** Running on a real robot. */
     REAL,
