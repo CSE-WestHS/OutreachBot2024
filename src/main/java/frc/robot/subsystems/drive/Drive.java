@@ -52,7 +52,6 @@ public class Drive extends SubsystemBase {
   public static final DifferentialDriveOdometry odometry =
       new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
   public static final DifferentialDriveKinematics kinematics =
-
       new DifferentialDriveKinematics(Constants.TRACK_WIDTH);
   private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(KS, KV);
   private final SysIdRoutine sysId;
@@ -103,7 +102,6 @@ public class Drive extends SubsystemBase {
 
   @Override
   /** Runs every frame */
-
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("Drive", inputs);
@@ -111,10 +109,9 @@ public class Drive extends SubsystemBase {
     // Update odometry
 
     odometry.update(
-        Rotation2d.fromDegrees(GyroIONavX.NavX.getYaw()),
+        Rotation2d.fromDegrees(inputs.gyroYaw.getDegrees()),
         getLeftPositionMeters(),
         getRightPositionMeters());
-
   }
 
   /** Run open loop at the specified voltage. */
@@ -162,6 +159,16 @@ public class Drive extends SubsystemBase {
   /** Returns the current odometry pose in meters. */
   @AutoLogOutput(key = "Odometry/Robot")
   public Pose2d getPose() {
+    switch (Constants.currentMode) {
+      case REAL:
+        return odometry.getPoseMeters();
+      case SIM:
+        return new Pose2d(
+            odometry.getPoseMeters().getX(),
+            odometry.getPoseMeters().getY(),
+            new Rotation2d().fromDegrees(odometry.getPoseMeters().getRotation().getDegrees()));
+    }
+
     return odometry.getPoseMeters();
   }
 

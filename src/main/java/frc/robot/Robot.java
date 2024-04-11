@@ -56,7 +56,6 @@ public class Robot extends LoggedRobot {
         break;
     }
 
-
     // Set up data receivers & replay source
 
     switch (Constants.currentMode) {

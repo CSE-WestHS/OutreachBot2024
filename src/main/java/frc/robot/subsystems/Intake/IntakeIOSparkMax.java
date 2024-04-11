@@ -27,7 +27,6 @@ import edu.wpi.first.math.util.Units;
  */
 public class IntakeIOSparkMax implements IntakeIO {
 
-
   private final CANSparkMax leader = new CANSparkMax(7, MotorType.kBrushless);
   private final CANSparkMax follower = new CANSparkMax(8, MotorType.kBrushless);
 

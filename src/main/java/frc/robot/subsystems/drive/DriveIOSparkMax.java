@@ -13,17 +13,11 @@
 
 package frc.robot.subsystems.drive;
 
-
-import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.Pigeon2Configuration;
-import com.ctre.phoenix6.hardware.Pigeon2;
-
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -43,7 +37,6 @@ public class DriveIOSparkMax implements DriveIO {
   private final RelativeEncoder rightEncoder = rightLeader.getEncoder();
   private final SparkPIDController leftPID = leftLeader.getPIDController();
   private final SparkPIDController rightPID = rightLeader.getPIDController();
-
 
   public DriveIOSparkMax() {
     leftLeader.restoreFactoryDefaults();
@@ -75,7 +68,6 @@ public class DriveIOSparkMax implements DriveIO {
     rightLeader.burnFlash();
     leftFollower.burnFlash();
     rightFollower.burnFlash();
-
   }
 
   @Override
@@ -93,7 +85,6 @@ public class DriveIOSparkMax implements DriveIO {
     inputs.rightAppliedVolts = rightLeader.getAppliedOutput() * rightLeader.getBusVoltage();
     inputs.rightCurrentAmps =
         new double[] {rightLeader.getOutputCurrent(), rightFollower.getOutputCurrent()};
-
   }
 
   @Override
