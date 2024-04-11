@@ -48,7 +48,7 @@ public class Drive extends SubsystemBase {
 
   private final DriveIO io;
   private final DriveIOInputsAutoLogged inputs = new DriveIOInputsAutoLogged();
-
+  private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
   public static final DifferentialDriveOdometry odometry =
       new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
   public static final DifferentialDriveKinematics kinematics =

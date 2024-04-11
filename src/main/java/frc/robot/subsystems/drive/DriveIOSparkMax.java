@@ -45,9 +45,6 @@ public class DriveIOSparkMax implements DriveIO {
   private final SparkPIDController rightPID = rightLeader.getPIDController();
 
 
-  private final Pigeon2 pigeon = new Pigeon2(20);
-  private final StatusSignal<Double> yaw = pigeon.getYaw();
-
   public DriveIOSparkMax() {
     leftLeader.restoreFactoryDefaults();
     rightLeader.restoreFactoryDefaults();

@@ -35,8 +35,6 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 
-// import frc.robot.subsystems.flywheel.FlywheelIOSim;
-
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
@@ -52,8 +50,8 @@ public class RobotContainer {
   private final Drive drive;
   private final Flywheel flywheel;
 
-  private Intake intake;
-  private Shooter shooter;
+  private final Intake intake;
+  private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
