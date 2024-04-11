@@ -137,7 +137,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.setDefaultCommand(
         Commands.run(
-            () -> drive.driveArcade(-controller.getLeftY(), -controller.getLeftX() / 2), drive));
+            () ->
+                drive.driveArcade(
+                    /*-controller.getLeftY()*/ controller.getLeftTriggerAxis(),
+                    -controller.getRightY() / 2),
+            drive));
     controller
         .a()
         .whileTrue(
