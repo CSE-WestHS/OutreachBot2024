@@ -29,6 +29,7 @@ public class ShooterIOSparkMax implements ShooterIO {
 
   private final CANSparkMax leader = new CANSparkMax(9, MotorType.kBrushless);
   private final CANSparkMax follower = new CANSparkMax(10, MotorType.kBrushless);
+
   private final RelativeEncoder encoder = leader.getEncoder();
   private final SparkPIDController pid = leader.getPIDController();
 

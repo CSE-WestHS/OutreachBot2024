@@ -21,10 +21,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeIOSim;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterIOSim;
+
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIO;
 import frc.robot.subsystems.drive.DriveIOSim;
@@ -32,7 +34,9 @@ import frc.robot.subsystems.drive.DriveIOSparkMax;
 import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
+
 // import frc.robot.subsystems.flywheel.FlywheelIOSim;
+
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
@@ -47,8 +51,10 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Flywheel flywheel;
+
   private Intake intake;
   private Shooter shooter;
+
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
@@ -72,8 +78,10 @@ public class RobotContainer {
         // Sim robot, instantiate physics sim IO implementations
         drive = new Drive(new DriveIOSim());
         flywheel = new Flywheel(new FlywheelIOSim());
+
         intake = new Intake(new IntakeIOSim());
         shooter = new Shooter(new ShooterIOSim());
+
         break;
 
       default:
@@ -132,8 +140,10 @@ public class RobotContainer {
         .whileTrue(
             Commands.startEnd(
                 () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+
     controller.b().whileTrue(Commands.run(() -> shooter.runVelocity(2200)));
     controller.x().whileTrue(Commands.run(() -> intake.runVelocity(2500)));
+
   }
 
   /**
