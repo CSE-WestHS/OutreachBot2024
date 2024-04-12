@@ -10,14 +10,19 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 /** Add your docs here. */
 public class LimelightAiming {
   private static NetworkTable table = NetworkTableInstance.getDefault().getTable("");
-  ;
-
+  /**
+   * 
+   * @return april tag heading
+   */
   public double getAprilTagHeading() {
     double xOffset = table.getValue("tx").getDouble();
 
     return 90 - xOffset;
   }
-
+  /**
+   * 
+   * @return distance to target
+   */
   public double getDistanceToTarget() {
     double ty = table.getEntry("ty").getDouble(0.0);
 
