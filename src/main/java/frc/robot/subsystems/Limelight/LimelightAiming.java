@@ -22,13 +22,13 @@ public class LimelightAiming {
     double ty = table.getEntry("ty").getDouble(0.0);
 
     // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = 25.0;
+    double limelightMountAngleDegrees = 25.0; //TODO: add in value/constant for our robot
 
     // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 20.0;
+    double limelightLensHeightInches = 20.0; //TODO: add in value/constant for our robot
 
     // distance from the target to the floor
-    double goalHeightInches = 60.0;
+    double goalHeightInches = 60.0; //TODO: add in constant/value
 
     double angleToGoalDegrees = limelightMountAngleDegrees + ty;
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
