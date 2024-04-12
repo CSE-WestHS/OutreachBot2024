@@ -7,7 +7,8 @@ package frc.robot.Commands.ShooterCommands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter.Shooter;
-//command to shoot without april tag aiming
+// command to shoot without april tag aiming
+
 public class ShootBall extends Command {
   private Shooter shooter;
   double currentTime = 0;
@@ -23,7 +24,6 @@ public class ShootBall extends Command {
   @Override
   public void initialize() {
     startTime = Timer.getFPGATimestamp();
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +31,7 @@ public class ShootBall extends Command {
   public void execute() {
     currentTime = Timer.getFPGATimestamp();
     shooter.runVelocity(2500);
-    Timer.delay(0.5); //not sure if this is bad or not
+    Timer.delay(0.5); // not sure if this is bad or not
   }
 
   // Called once the command ends or is interrupted.
@@ -41,7 +41,7 @@ public class ShootBall extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //if run too long it will stop
+    // if run too long it will stop
     if (currentTime - startTime > 5) {
       return true;
     }

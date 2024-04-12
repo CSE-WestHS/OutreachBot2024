@@ -148,8 +148,12 @@ public class RobotContainer {
             Commands.startEnd(
                 () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
 
-    controller.b().whileTrue(Commands.run(() -> shooter.runVelocity(2200)));
-    controller.x().whileTrue(Commands.run(() -> intake.runVelocity(2500)));
+    controller
+        .b()
+        .whileTrue(Commands.startEnd(() -> shooter.runVelocity(2500), shooter::stop, shooter));
+    controller
+        .x()
+        .whileTrue(Commands.startEnd(() -> intake.runVelocity(2500), intake::stop, intake));
     controller
         .rightTrigger()
         .whileTrue(
