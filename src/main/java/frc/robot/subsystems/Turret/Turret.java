@@ -96,14 +96,5 @@ public class Turret extends SubsystemBase {
     return sysId.dynamic(direction);
   }
 
-  /** Returns the current velocity in RPM. */
-  @AutoLogOutput
-  public double getVelocityRPM() {
-    return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSec);
-  }
 
-  /** Returns the current velocity in radians per second. */
-  public double getCharacterizationVelocity() {
-    return inputs.velocityRadPerSec;
-  }
 }
