@@ -48,9 +48,10 @@ public class Drive extends SubsystemBase {
 
   private final DriveIO io;
   private final DriveIOInputsAutoLogged inputs = new DriveIOInputsAutoLogged();
-  private final DifferentialDriveOdometry odometry =
+  private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
+  public static final DifferentialDriveOdometry odometry =
       new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
-  private final DifferentialDriveKinematics kinematics =
+  public static final DifferentialDriveKinematics kinematics =
       new DifferentialDriveKinematics(Constants.TRACK_WIDTH);
   private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(KS, KV);
   private final SysIdRoutine sysId;
@@ -106,7 +107,11 @@ public class Drive extends SubsystemBase {
     Logger.processInputs("Drive", inputs);
 
     // Update odometry
-    odometry.update(inputs.gyroYaw, getLeftPositionMeters(), getRightPositionMeters());
+
+    odometry.update(
+        Rotation2d.fromDegrees(inputs.gyroYaw.getDegrees()),
+        getLeftPositionMeters(),
+        getRightPositionMeters());
   }
 
   /** Run open loop at the specified voltage. */
@@ -128,8 +133,11 @@ public class Drive extends SubsystemBase {
   }
 
   /** Run open loop based on stick positions. */
-  public void driveArcade(double xSpeed, double zRotation) {
-    var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, zRotation, true);
+  public void CurvatureDrive(double xSpeed, double zRotation) {
+
+    // var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, zRotation, true);
+    var speeds = DifferentialDrive.curvatureDriveIK(xSpeed, zRotation, true);
+
     io.setVoltage(speeds.left * 12.0, speeds.right * 12.0);
   }
 
@@ -151,6 +159,16 @@ public class Drive extends SubsystemBase {
   /** Returns the current odometry pose in meters. */
   @AutoLogOutput(key = "Odometry/Robot")
   public Pose2d getPose() {
+    switch (Constants.currentMode) {
+      case REAL:
+        return odometry.getPoseMeters();
+      case SIM:
+        return new Pose2d(
+            odometry.getPoseMeters().getX(),
+            odometry.getPoseMeters().getY(),
+            new Rotation2d().fromDegrees(odometry.getPoseMeters().getRotation().getDegrees()));
+    }
+
     return odometry.getPoseMeters();
   }
 

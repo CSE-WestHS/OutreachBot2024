@@ -56,7 +56,8 @@ public class Robot extends LoggedRobot {
         break;
     }
 
-    // Set up data receivers & replay source   
+    // Set up data receivers & replay source
+
     switch (Constants.currentMode) {
       case REAL:
         // Running on a real robot, log to a USB stick ("/U/logs")
