@@ -135,12 +135,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
     drive.setDefaultCommand(
         Commands.run(
             () ->
                 drive.CurvatureDrive(
                     /*-controller.getLeftY()*/ (controller.getLeftTriggerAxis()),
-                    -controller.getRightY() / 2),
+                    applyDeadband(-controller.getRightY() / 2)),
             drive));
     controller
         .a()
@@ -160,7 +161,8 @@ public class RobotContainer {
             Commands.run(
                 () ->
                     drive.CurvatureDrive(
-                        -controller.getRightTriggerAxis(), -controller.getRightY() / 2)));
+                        -controller.getRightTriggerAxis(),
+                        applyDeadband(-controller.getRightY() / 2))));
   }
 
   /**
@@ -170,5 +172,13 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.get();
+  }
+
+  public static double applyDeadband(double d) {
+    if (Math.abs(d) < .15) {
+      return 0;
+    } else {
+      return d;
+    }
   }
 }
