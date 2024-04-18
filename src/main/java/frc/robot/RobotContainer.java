@@ -25,6 +25,14 @@ import frc.robot.subsystems.Turret.Turret;
 import frc.robot.subsystems.Turret.TurretIO;
 import frc.robot.subsystems.Turret.TurretIOSim;
 import frc.robot.subsystems.Turret.TurretIOSparkMax;
+import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Intake.IntakeIO;
+import frc.robot.subsystems.Intake.IntakeIOSim;
+import frc.robot.subsystems.Intake.IntakeIOSparkMax;
+import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.ShooterIO;
+import frc.robot.subsystems.Shooter.ShooterIOSim;
+import frc.robot.subsystems.Shooter.ShooterIOSparkMax;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIO;
 import frc.robot.subsystems.drive.DriveIOSim;
@@ -48,6 +56,9 @@ public class RobotContainer {
   private final Flywheel flywheel;
   private final Turret turret;
 
+  private final Intake intake;
+  private final Shooter shooter;
+
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
@@ -64,6 +75,8 @@ public class RobotContainer {
         drive = new Drive(new DriveIOSparkMax());
         flywheel = new Flywheel(new FlywheelIOSparkMax());
         turret = new Turret(new TurretIOSparkMax());
+        intake = new Intake(new IntakeIOSparkMax());
+        shooter = new Shooter(new ShooterIOSparkMax());
         // drive = new Drive(new DriveIOTalonFX());
         // flywheel = new Flywheel(new FlywheelIOTalonFX());
         break;
@@ -73,6 +86,10 @@ public class RobotContainer {
         drive = new Drive(new DriveIOSim());
         flywheel = new Flywheel(new FlywheelIOSim());
         turret = new Turret(new TurretIOSim());
+
+        intake = new Intake(new IntakeIOSim());
+        shooter = new Shooter(new ShooterIOSim());
+
         break;
 
       default:
@@ -80,6 +97,8 @@ public class RobotContainer {
         drive = new Drive(new DriveIO() {});
         flywheel = new Flywheel(new FlywheelIO() {});
         turret = new Turret(new TurretIO() {});
+        intake = new Intake(new IntakeIO() {});
+        shooter = new Shooter(new ShooterIO() {});
         break;
     }
 
@@ -124,14 +143,34 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
     drive.setDefaultCommand(
         Commands.run(
-            () -> drive.driveArcade(-controller.getLeftY(), controller.getLeftX()), drive));
+            () ->
+                drive.CurvatureDrive(
+                    /*-controller.getLeftY()*/ (controller.getLeftTriggerAxis()),
+                    applyDeadband(-controller.getRightY() / 2)),
+            drive));
     controller
         .a()
         .whileTrue(
             Commands.startEnd(
                 () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+
+    controller
+        .b()
+        .whileTrue(Commands.startEnd(() -> shooter.runVelocity(2500), shooter::stop, shooter));
+    controller
+        .x()
+        .whileTrue(Commands.startEnd(() -> intake.runVelocity(2500), intake::stop, intake));
+    controller
+        .rightTrigger()
+        .whileTrue(
+            Commands.run(
+                () ->
+                    drive.CurvatureDrive(
+                        -controller.getRightTriggerAxis(),
+                        applyDeadband(-controller.getRightY() / 2))));
   }
 
   /**
@@ -141,5 +180,13 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.get();
+  }
+
+  public static double applyDeadband(double d) {
+    if (Math.abs(d) < .15) {
+      return 0;
+    } else {
+      return d;
+    }
   }
 }
