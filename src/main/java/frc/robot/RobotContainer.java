@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Commands.TurretCommands.*;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeIO;
 import frc.robot.subsystems.Intake.IntakeIOSim;
@@ -171,6 +172,8 @@ public class RobotContainer {
                     drive.CurvatureDrive(
                         -controller.getRightTriggerAxis(),
                         applyDeadband(-controller.getRightY() / 2))));
+    controller.povUp().whileTrue(new frc.robot.Commands.TurretCommands.IncrementPosition(turret));
+    controller.povDown().onTrue(Commands.run(() -> turret.setTargetPosition(0), turret));
   }
 
   /**
