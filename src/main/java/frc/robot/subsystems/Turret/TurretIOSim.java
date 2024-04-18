@@ -25,6 +25,7 @@ public class TurretIOSim implements TurretIO {
   private boolean closedLoop = false;
   private double ffVolts = 0.0;
   private double appliedVolts = 0.0;
+  private double position = 0.0;
 
   @Override
   public void updateInputs(TurretIOInputs inputs) {
@@ -36,10 +37,15 @@ public class TurretIOSim implements TurretIO {
 
     sim.update(0.02);
 
-    inputs.positionRad = 0.0;
-    inputs.velocityRadPerSec = sim.getAngularVelocityRadPerSec();
+    inputs.positionRad = position;
     inputs.appliedVolts = appliedVolts;
     inputs.currentAmps = new double[] {sim.getCurrentDrawAmps()};
+  }
+  @Override
+  public void setPosition(double posRads){
+    // TODO: This is bad, rework this. Figure out a way to make sim smooth.
+    sim.setState(posRads, 0);
+    
   }
 
   @Override
@@ -49,12 +55,6 @@ public class TurretIOSim implements TurretIO {
     sim.setInputVoltage(volts);
   }
 
-  @Override
-  public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    closedLoop = true;
-    pid.setSetpoint(velocityRadPerSec);
-    this.ffVolts = ffVolts;
-  }
 
   @Override
   public void stop() {

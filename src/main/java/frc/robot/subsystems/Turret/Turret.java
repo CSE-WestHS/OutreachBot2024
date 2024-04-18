@@ -76,14 +76,10 @@ public class Turret extends SubsystemBase {
     io.setVoltage(volts);
   }
 
-  /** Run closed loop at the specified velocity. */
-  public void runVelocity(double velocityRPM) {
-    var velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM);
-    io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
-
-    // Log Turret setpoint
-    Logger.recordOutput("Turret/SetpointRPM", velocityRPM);
-  }
+  public void setTargetPosition(double positionRads){
+   io.setPosition(positionRads);
+   Logger.recordOutput("turretTargetPos", positionRads);
+}
 
   /** Stops the Turret. */
   public void stop() {

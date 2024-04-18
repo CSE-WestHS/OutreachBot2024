@@ -29,50 +29,46 @@ import frc.robot.Constants;
 public class TurretIOSparkMax implements TurretIO {
   private static final double GEAR_RATIO = Constants.TURRET_GEAR_RATIO;
 
-  private final CANSparkMax leader = new CANSparkMax(Constants.TURRET_CAN_ID, MotorType.kBrushless);
-  private final RelativeEncoder encoder = leader.getEncoder();
-  private final SparkPIDController pid = leader.getPIDController();
+  private final CANSparkMax turret = new CANSparkMax(Constants.TURRET_CAN_ID, MotorType.kBrushless);
+  private final RelativeEncoder encoder = turret.getEncoder();
+  private final SparkPIDController pid = turret.getPIDController();
 
   public TurretIOSparkMax() {
-    leader.restoreFactoryDefaults();
+    turret.restoreFactoryDefaults();
 
-    leader.setCANTimeout(250);
+    turret.setCANTimeout(250);
 
-    leader.setInverted(false);
+    turret.setInverted(false);
 
-    leader.enableVoltageCompensation(12.0);
-    leader.setSmartCurrentLimit(30);
+    turret.enableVoltageCompensation(12.0);
+    turret.setSmartCurrentLimit(30);
 
-    leader.burnFlash();
+    turret.burnFlash();
   }
 
   @Override
   public void updateInputs(TurretIOInputs inputs) {
     inputs.positionRad = Units.rotationsToRadians(encoder.getPosition() / GEAR_RATIO);
-    inputs.velocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
-    inputs.appliedVolts = leader.getAppliedOutput() * leader.getBusVoltage();
-    inputs.currentAmps = new double[] {leader.getOutputCurrent()};
+    inputs.positionRad = turret.getEncoder().getPosition()/GEAR_RATIO * Math.PI * 2;
+    inputs.appliedVolts = turret.getAppliedOutput() * turret.getBusVoltage();
+    inputs.currentAmps = new double[] {turret.getOutputCurrent()};
   }
 
   @Override
   public void setVoltage(double volts) {
-    leader.setVoltage(volts);
+    turret.setVoltage(volts);
   }
 
-  @Override
-  public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    pid.setReference(
-        Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-        ControlType.kVelocity,
-        0,
-        ffVolts,
-        ArbFFUnits.kVoltage);
+  //@Override
+  public void setPosition(float posRads){
+    pid.setReference(posRads/Math.PI * 2,ControlType.kPosition, 0);
+
   }
+
 
   @Override
   public void stop() {
-    leader.stopMotor();
+    turret.stopMotor();
   }
 
   @Override
