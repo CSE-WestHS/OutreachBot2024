@@ -172,8 +172,13 @@ public class RobotContainer {
                     drive.CurvatureDrive(
                         -controller.getRightTriggerAxis(),
                         applyDeadband(-controller.getRightY() / 2))));
-    controller.povUp().whileTrue(new frc.robot.Commands.TurretCommands.IncrementPosition(turret));
-    controller.povDown().onTrue(Commands.run(() -> turret.setTargetPosition(0), turret));
+    controller
+        .povUp()
+        .whileTrue(new frc.robot.Commands.TurretCommands.IncrementPositionLeft(turret));
+    controller
+        .povDown()
+        .whileTrue(new frc.robot.Commands.TurretCommands.IncrementPositionRight(turret));
+    controller.povLeft().onTrue(Commands.run(() -> turret.setTargetPosition(0), turret));
   }
 
   /**
