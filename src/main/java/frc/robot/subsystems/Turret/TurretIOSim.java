@@ -64,4 +64,9 @@ public class TurretIOSim implements TurretIO {
   public void configurePID(double kP, double kI, double kD) {
     pid.setPID(kP, kI, kD);
   }
+
+  @Override
+  public double getPosition() {
+    return sim.getAngularPositionRad();
+  }
 }

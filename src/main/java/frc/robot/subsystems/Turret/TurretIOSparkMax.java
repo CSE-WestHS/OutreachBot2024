@@ -60,7 +60,7 @@ public class TurretIOSparkMax implements TurretIO {
 
   // @Override
   public void setPosition(float posRads) {
-    pid.setReference(posRads / Math.PI * 2, ControlType.kPosition, 0);
+    pid.setReference(posRads / (Math.PI * 2), ControlType.kPosition, 0);
   }
 
   @Override
@@ -74,5 +74,10 @@ public class TurretIOSparkMax implements TurretIO {
     pid.setI(kI, 0);
     pid.setD(kD, 0);
     pid.setFF(0, 0);
+  }
+
+  @Override
+  public double getPosition() {
+    return encoder.getPosition() * Math.PI * 2;
   }
 }

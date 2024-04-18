@@ -16,10 +16,15 @@ package frc.robot.subsystems.Turret;
 import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
+import frc.robot.subsystems.drive.Drive;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class Turret extends SubsystemBase {
@@ -67,6 +72,7 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("Turret", inputs);
+    Logger.recordOutput("turretPosition", new Rotation2d(io.getPosition()));
   }
 
   /** Run open loop at the specified voltage. */
@@ -92,5 +98,26 @@ public class Turret extends SubsystemBase {
   /** Returns a command to run a dynamic test in the specified direction. */
   public Command sysIdDynamic(SysIdRoutine.Direction direction) {
     return sysId.dynamic(direction);
+  }
+
+  public double getPosition() {
+    return io.getPosition();
+  }
+
+  @AutoLogOutput(key = "Odometry/Turret")
+  public Pose2d getPose() {
+    DifferentialDriveOdometry odometry = Drive.odometry;
+    switch (Constants.currentMode) {
+      case REAL:
+        return odometry.getPoseMeters();
+      case SIM:
+        return new Pose2d(
+            odometry.getPoseMeters().getX(),
+            odometry.getPoseMeters().getY(),
+            new Rotation2d()
+                .fromRadians(getPosition() + odometry.getPoseMeters().getRotation().getRadians()));
+    }
+
+    return odometry.getPoseMeters();
   }
 }
