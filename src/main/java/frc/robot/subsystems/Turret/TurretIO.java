@@ -19,7 +19,6 @@ public interface TurretIO {
   @AutoLog
   public static class TurretIOInputs {
     public double positionRad = 0.0;
-    public double velocityRadPerSec = 0.0;
     public double appliedVolts = 0.0;
     public double[] currentAmps = new double[] {};
   }
@@ -29,8 +28,6 @@ public interface TurretIO {
 
   /** Run open loop at the specified voltage. */
   public default void setVoltage(double volts) {}
-
-
 
   /** Stop in open loop. */
   public default void stop() {}

@@ -16,12 +16,10 @@ package frc.robot.subsystems.Turret;
 import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
-import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class Turret extends SubsystemBase {
@@ -76,10 +74,10 @@ public class Turret extends SubsystemBase {
     io.setVoltage(volts);
   }
 
-  public void setTargetPosition(double positionRads){
-   io.setPosition(positionRads);
-   Logger.recordOutput("turretTargetPos", positionRads);
-}
+  public void setTargetPosition(double positionRads) {
+    io.setPosition(positionRads);
+    Logger.recordOutput("turretTargetPos", positionRads);
+  }
 
   /** Stops the Turret. */
   public void stop() {
@@ -95,6 +93,4 @@ public class Turret extends SubsystemBase {
   public Command sysIdDynamic(SysIdRoutine.Direction direction) {
     return sysId.dynamic(direction);
   }
-
-
 }

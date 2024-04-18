@@ -18,7 +18,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 
@@ -49,7 +48,7 @@ public class TurretIOSparkMax implements TurretIO {
   @Override
   public void updateInputs(TurretIOInputs inputs) {
     inputs.positionRad = Units.rotationsToRadians(encoder.getPosition() / GEAR_RATIO);
-    inputs.positionRad = turret.getEncoder().getPosition()/GEAR_RATIO * Math.PI * 2;
+    inputs.positionRad = turret.getEncoder().getPosition() / GEAR_RATIO * Math.PI * 2;
     inputs.appliedVolts = turret.getAppliedOutput() * turret.getBusVoltage();
     inputs.currentAmps = new double[] {turret.getOutputCurrent()};
   }
@@ -59,12 +58,10 @@ public class TurretIOSparkMax implements TurretIO {
     turret.setVoltage(volts);
   }
 
-  //@Override
-  public void setPosition(float posRads){
-    pid.setReference(posRads/Math.PI * 2,ControlType.kPosition, 0);
-
+  // @Override
+  public void setPosition(float posRads) {
+    pid.setReference(posRads / Math.PI * 2, ControlType.kPosition, 0);
   }
-
 
   @Override
   public void stop() {

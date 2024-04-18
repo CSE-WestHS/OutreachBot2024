@@ -41,11 +41,11 @@ public class TurretIOSim implements TurretIO {
     inputs.appliedVolts = appliedVolts;
     inputs.currentAmps = new double[] {sim.getCurrentDrawAmps()};
   }
+
   @Override
-  public void setPosition(double posRads){
+  public void setPosition(double posRads) {
     // TODO: This is bad, rework this. Figure out a way to make sim smooth.
     sim.setState(posRads, 0);
-    
   }
 
   @Override
@@ -54,7 +54,6 @@ public class TurretIOSim implements TurretIO {
     appliedVolts = volts;
     sim.setInputVoltage(volts);
   }
-
 
   @Override
   public void stop() {
