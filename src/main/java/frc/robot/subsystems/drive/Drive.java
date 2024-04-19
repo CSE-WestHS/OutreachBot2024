@@ -105,8 +105,6 @@ public class Drive extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("Drive", inputs);
-    // logger.recordOutput("VisionTarget",new Pose2d());
-
     // Update odometry
 
     odometry.update(
