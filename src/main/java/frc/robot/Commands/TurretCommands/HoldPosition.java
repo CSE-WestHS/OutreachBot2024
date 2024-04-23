@@ -13,6 +13,9 @@ public class HoldPosition extends Command {
     this.mode = mode;
     addRequirements(turret);
     this.turret = turret;
+  }
+
+  public void initialize() {
     position = turret.getPosition();
   }
 

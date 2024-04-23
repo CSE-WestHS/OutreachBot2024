@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Commands.TurretCommands.GotoPosition;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeIO;
 import frc.robot.subsystems.Intake.IntakeIOSim;
@@ -41,6 +42,7 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
+import frc.robot.util.CoordinateSource;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -151,6 +153,10 @@ public class RobotContainer {
                     /*-controller.getLeftY()*/ (controller.getLeftTriggerAxis()),
                     applyDeadband(-controller.getRightY() / 2)),
             drive));
+    turret.setDefaultCommand(
+        new GotoPosition(
+            turret, /*Math.atan2(controller.getLeftY(), controller.getLeftX())*/
+            new CoordinateSource(controller::getLeftX, controller::getLeftY)));
     controller
         .a()
         .whileTrue(
