@@ -179,7 +179,8 @@ public class RobotContainer {
 
   /**
    * 
-   * @param triggerValue
+   * @param triggerValue ex: controller.getRightTriggerAxis()
+   * @see deadband deadband is set at 0.15
    * @return returns 0 if below deadband and the trigger axis value if not
    */
   public static double applyDeadband(double triggerValue) {
