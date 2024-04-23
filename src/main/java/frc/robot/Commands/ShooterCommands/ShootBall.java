@@ -10,13 +10,16 @@ import frc.robot.subsystems.Shooter.Shooter;
 // command to shoot without april tag aiming
 
 public class ShootBall extends Command {
-  private Shooter shooter;
+  Shooter shooter;
   double currentTime = 0;
   double startTime = 0;
-  /** Creates a new ShootBall. */
+  /**
+   * Creates a new ShootBall.
+   *
+   * @param newShooter put in shooter object
+   */
   public ShootBall(Shooter newShooter) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
     this.shooter = newShooter;
   }
 
@@ -31,12 +34,14 @@ public class ShootBall extends Command {
   public void execute() {
     currentTime = Timer.getFPGATimestamp();
     shooter.runVelocity(2500);
-    Timer.delay(0.5); // not sure if this is bad or not
+    // Timer.delay(0.5); // not sure if this is bad or not
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.stop();
+  }
 
   // Returns true when the command should end.
   @Override

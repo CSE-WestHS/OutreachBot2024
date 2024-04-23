@@ -4,12 +4,13 @@
 
 package frc.robot.Commands.IntakeCommands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake.Intake;
 
 public class IntakeStart extends Command {
-  //class variables
+  // class variables
   private Intake intake;
   private double startTime = 0.0;
   public double currentTime = 0.0;
@@ -18,7 +19,7 @@ public class IntakeStart extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
 
-    //instance variables
+    // instance variables
     this.intake = intake;
   }
 
@@ -33,17 +34,21 @@ public class IntakeStart extends Command {
   @Override
   public void execute() {
     currentTime = Timer.getFPGATimestamp();
-    intake.runVelocity(25000);
+    intake.runVelocity(2500);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intake.stop();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (currentTime-startTime > 5) { return true; }
+    if (currentTime - startTime > 5 || DriverStation.isDisabled()) {
+      return true;
+    }
     return false;
   }
 }

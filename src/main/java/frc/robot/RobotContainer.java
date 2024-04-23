@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Commands.ShooterCommands.*;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeIO;
 import frc.robot.subsystems.Intake.IntakeIOSim;
@@ -137,15 +138,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     drive.setDefaultCommand(
-        //Runs the left trigger of the drive controls
+        // Runs the left trigger of the drive controls
         Commands.run(
             () ->
                 drive.CurvatureDrive(
                     /*-controller.getLeftY()*/ (controller.getLeftTriggerAxis()),
                     applyDeadband(-controller.getRightY() / 2)),
             drive));
-        //runs the right trigger of the drive controls
-        controller
+    // runs the right trigger of the drive controls
+    controller
         .rightTrigger()
         .whileTrue(
             Commands.run(
@@ -153,19 +154,21 @@ public class RobotContainer {
                     drive.CurvatureDrive(
                         -controller.getRightTriggerAxis(),
                         applyDeadband(-controller.getRightY() / 2))));
-    //runs flywheel --may be removed in future
+    // runs flywheel --may be removed in future
     controller
         .a()
         .whileTrue(
             Commands.startEnd(
                 () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
-    //test controls
+    // test controls
+    // controller.b().whileTrue(new ShootBall(shooter));
+    // controller.x().whileTrue(new IntakeStart(intake));
     controller
         .b()
-        .whileTrue(Commands.startEnd(() -> shooter.runVelocity(2500), shooter::stop, shooter));
+        .whileTrue(Commands.runEnd(() -> shooter.runVelocity(2500), shooter::stop, shooter));
     controller
         .x()
-        .whileTrue(Commands.startEnd(() -> intake.runVelocity(2500), intake::stop, intake));
+        .whileTrue(Commands.runEnd(() -> intake.runVelocity(2500), intake::stop, shooter));
   }
 
   /**
@@ -178,7 +181,6 @@ public class RobotContainer {
   }
 
   /**
-   * 
    * @param triggerValue ex: controller.getRightTriggerAxis()
    * @see deadband deadband is set at 0.15
    * @return returns 0 if below deadband and the trigger axis value if not

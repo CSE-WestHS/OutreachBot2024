@@ -79,7 +79,7 @@ public class Shooter extends SubsystemBase {
     io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
 
     // Log flywheel setpoint
-    Logger.recordOutput("Flywheel/SetpointRPM", velocityRPM);
+    Logger.recordOutput("Shooter/VelocityRPM", velocityRPM);
   }
 
   /** Stops the flywheel. */
