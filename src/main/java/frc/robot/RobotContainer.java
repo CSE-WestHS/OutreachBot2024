@@ -137,25 +137,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     drive.setDefaultCommand(
+        //Runs the left trigger of the drive controls
         Commands.run(
             () ->
                 drive.CurvatureDrive(
                     /*-controller.getLeftY()*/ (controller.getLeftTriggerAxis()),
                     applyDeadband(-controller.getRightY() / 2)),
             drive));
-    controller
-        .a()
-        .whileTrue(
-            Commands.startEnd(
-                () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
-
-    controller
-        .b()
-        .whileTrue(Commands.startEnd(() -> shooter.runVelocity(2500), shooter::stop, shooter));
-    controller
-        .x()
-        .whileTrue(Commands.startEnd(() -> intake.runVelocity(2500), intake::stop, intake));
-    controller
+        //runs the right trigger of the drive controls
+        controller
         .rightTrigger()
         .whileTrue(
             Commands.run(
@@ -163,6 +153,19 @@ public class RobotContainer {
                     drive.CurvatureDrive(
                         -controller.getRightTriggerAxis(),
                         applyDeadband(-controller.getRightY() / 2))));
+    //runs flywheel --may be removed in future
+    controller
+        .a()
+        .whileTrue(
+            Commands.startEnd(
+                () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+    //test controls
+    controller
+        .b()
+        .whileTrue(Commands.startEnd(() -> shooter.runVelocity(2500), shooter::stop, shooter));
+    controller
+        .x()
+        .whileTrue(Commands.startEnd(() -> intake.runVelocity(2500), intake::stop, intake));
   }
 
   /**
@@ -174,11 +177,16 @@ public class RobotContainer {
     return autoChooser.get();
   }
 
-  public static double applyDeadband(double d) {
-    if (Math.abs(d) < .15) {
+  /**
+   * 
+   * @param triggerValue
+   * @return returns 0 if below deadband and the trigger axis value if not
+   */
+  public static double applyDeadband(double triggerValue) {
+    if (Math.abs(triggerValue) < .15) {
       return 0;
     } else {
-      return d;
+      return triggerValue;
     }
   }
 }
