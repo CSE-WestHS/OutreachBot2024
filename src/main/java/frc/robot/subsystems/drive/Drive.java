@@ -26,12 +26,10 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
-// import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
@@ -48,7 +46,10 @@ public class Drive extends SubsystemBase {
 
   private final DriveIO io;
   private final DriveIOInputsAutoLogged inputs = new DriveIOInputsAutoLogged();
+
+  @SuppressWarnings("unused")
   private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
+
   public static final DifferentialDriveOdometry odometry =
       new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
   public static final DifferentialDriveKinematics kinematics =
@@ -68,7 +69,7 @@ public class Drive extends SubsystemBase {
             kinematics.toChassisSpeeds(
                 new DifferentialDriveWheelSpeeds(
                     getLeftVelocityMetersPerSec(), getRightVelocityMetersPerSec())),
-        (speeds) -> {
+        speeds -> {
           var wheelSpeeds = kinematics.toWheelSpeeds(speeds);
           driveVelocity(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
         },
@@ -79,14 +80,11 @@ public class Drive extends SubsystemBase {
         this);
     Pathfinding.setPathfinder(new LocalADStarAK());
     PathPlannerLogging.setLogActivePathCallback(
-        (activePath) -> {
-          Logger.recordOutput(
-              "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
-        });
+        activePath ->
+            Logger.recordOutput(
+                "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()])));
     PathPlannerLogging.setLogTargetPoseCallback(
-        (targetPose) -> {
-          Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
-        });
+        targetPose -> Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose));
 
     // Configure SysId
     sysId =
@@ -95,9 +93,9 @@ public class Drive extends SubsystemBase {
                 null,
                 null,
                 null,
-                (state) -> Logger.recordOutput("Drive/SysIdState", state.toString())),
+                state -> Logger.recordOutput("Drive/SysIdState", state.toString())),
             new SysIdRoutine.Mechanism(
-                (voltage) -> driveVolts(voltage.in(Volts), voltage.in(Volts)), null, this));
+                voltage -> driveVolts(voltage.in(Volts), voltage.in(Volts)), null, this));
   }
 
   @Override
@@ -135,7 +133,6 @@ public class Drive extends SubsystemBase {
   /** Run open loop based on stick positions. */
   public void CurvatureDrive(double xSpeed, double zRotation) {
 
-    // var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, zRotation, true);
     var speeds = DifferentialDrive.curvatureDriveIK(xSpeed, zRotation, true);
 
     io.setVoltage(speeds.left * 12.0, speeds.right * 12.0);

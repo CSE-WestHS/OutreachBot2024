@@ -16,10 +16,8 @@ public class GotoPosition extends Command {
     this.controller = controller;
   }
   // New Default, Never Ends^tm
-  // public boolean isFinished() {
-  //  return Math.abs(turret.getPosition() - position) < Constants.TURRET_ROTATION_TOLERANCE;
-  // }
 
+  @Override
   public void execute() {
     boolean passesDeadband =
         Math.abs(controller.getY()) > Constants.TURRET_DEADBAND

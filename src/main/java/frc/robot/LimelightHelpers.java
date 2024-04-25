@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
 public class LimelightHelpers {
+  private LimelightHelpers() {}
 
   public static class LimelightTarget_Retro {
 
@@ -507,6 +508,7 @@ public class LimelightHelpers {
         pose, timestamp, latency, tagCount, tagSpan, tagDist, tagArea, rawFiducials);
   }
 
+  @SuppressWarnings("unused")
   private static void printPoseEstimate(PoseEstimate pose) {
     if (pose == null) {
       System.out.println("No PoseEstimate available.");

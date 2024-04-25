@@ -24,6 +24,8 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  private Constants() {}
+
   public static final double GEAR_RATIO = 1.5;
 
   public static final Mode currentMode = Mode.SIM;
@@ -40,7 +42,7 @@ public final class Constants {
   // In traditional coordinates, 0* is to the right. In robot coords, it is directly in front.
   public static final double TURRET_ZERO_OFFSET = -90 / (double) 180 * Math.PI;
 
-  public static enum Mode {
+  public enum Mode {
     /** Running on a real robot. */
     REAL,
 

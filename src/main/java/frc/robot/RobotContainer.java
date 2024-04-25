@@ -79,8 +79,6 @@ public class RobotContainer {
         turret = new Turret(new TurretIOSparkMax());
         intake = new Intake(new IntakeIOSparkMax());
         shooter = new Shooter(new ShooterIOSparkMax());
-        // drive = new Drive(new DriveIOTalonFX());
-        // flywheel = new Flywheel(new FlywheelIOTalonFX());
         break;
 
       case SIM:
