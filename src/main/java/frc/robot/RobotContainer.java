@@ -150,13 +150,12 @@ public class RobotContainer {
         Commands.run(
             () ->
                 drive.CurvatureDrive(
-                    /*-controller.getLeftY()*/ (controller.getLeftTriggerAxis()),
-                    applyDeadband(-controller.getRightY() / 2)),
+                    (applyDeadband(-controller.getLeftY())), applyDeadband(-controller.getLeftX() / 3 )),
             drive));
     turret.setDefaultCommand(
         new GotoPosition(
             turret, /*Math.atan2(controller.getLeftY(), controller.getLeftX())*/
-            new CoordinateSource(controller::getLeftX, controller::getLeftY)));
+            new CoordinateSource(controller::getRightX, controller::getRightY)));
     controller
         .a()
         .whileTrue(
@@ -169,14 +168,6 @@ public class RobotContainer {
     controller
         .x()
         .whileTrue(Commands.startEnd(() -> intake.runVelocity(2500), intake::stop, intake));
-    controller
-        .rightTrigger()
-        .whileTrue(
-            Commands.run(
-                () ->
-                    drive.CurvatureDrive(
-                        -controller.getRightTriggerAxis(),
-                        applyDeadband(-controller.getRightY() / 2))));
   }
 
   /**
