@@ -21,7 +21,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+<<<<<<< HEAD
 import frc.robot.Commands.ShooterCommands.*;
+=======
+import frc.robot.Commands.TurretCommands.GotoPosition;
+>>>>>>> main
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeIO;
 import frc.robot.subsystems.Intake.IntakeIOSim;
@@ -30,6 +34,10 @@ import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterIO;
 import frc.robot.subsystems.Shooter.ShooterIOSim;
 import frc.robot.subsystems.Shooter.ShooterIOSparkMax;
+import frc.robot.subsystems.Turret.Turret;
+import frc.robot.subsystems.Turret.TurretIO;
+import frc.robot.subsystems.Turret.TurretIOSim;
+import frc.robot.subsystems.Turret.TurretIOSparkMax;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIO;
 import frc.robot.subsystems.drive.DriveIOSim;
@@ -38,6 +46,7 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
+import frc.robot.util.CoordinateSource;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -51,6 +60,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Flywheel flywheel;
+  private final Turret turret;
 
   private final Intake intake;
   private final Shooter shooter;
@@ -70,6 +80,7 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         drive = new Drive(new DriveIOSparkMax());
         flywheel = new Flywheel(new FlywheelIOSparkMax());
+        turret = new Turret(new TurretIOSparkMax());
         intake = new Intake(new IntakeIOSparkMax());
         shooter = new Shooter(new ShooterIOSparkMax());
         // drive = new Drive(new DriveIOTalonFX());
@@ -80,6 +91,7 @@ public class RobotContainer {
         // Sim robot, instantiate physics sim IO implementations
         drive = new Drive(new DriveIOSim());
         flywheel = new Flywheel(new FlywheelIOSim());
+        turret = new Turret(new TurretIOSim());
 
         intake = new Intake(new IntakeIOSim());
         shooter = new Shooter(new ShooterIOSim());
@@ -90,6 +102,7 @@ public class RobotContainer {
         // Replayed robot, disable IO implementations
         drive = new Drive(new DriveIO() {});
         flywheel = new Flywheel(new FlywheelIO() {});
+        turret = new Turret(new TurretIO() {});
         intake = new Intake(new IntakeIO() {});
         shooter = new Shooter(new ShooterIO() {});
         break;
@@ -145,7 +158,26 @@ public class RobotContainer {
                     /*-controller.getLeftY()*/ (controller.getLeftTriggerAxis()),
                     applyDeadband(-controller.getRightY() / 2)),
             drive));
+<<<<<<< HEAD
     // runs the right trigger of the drive controls
+=======
+    turret.setDefaultCommand(
+        new GotoPosition(
+            turret, /*Math.atan2(controller.getLeftY(), controller.getLeftX())*/
+            new CoordinateSource(controller::getLeftX, controller::getLeftY)));
+    controller
+        .a()
+        .whileTrue(
+            Commands.startEnd(
+                () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+
+    controller
+        .b()
+        .whileTrue(Commands.startEnd(() -> shooter.runVelocity(2500), shooter::stop, shooter));
+    controller
+        .x()
+        .whileTrue(Commands.startEnd(() -> intake.runVelocity(2500), intake::stop, intake));
+>>>>>>> main
     controller
         .rightTrigger()
         .whileTrue(

@@ -31,6 +31,15 @@ public final class Constants {
   public static final double WHEEL_RADIUS = Units.inchesToMeters(3.0);
   public static final double TRACK_WIDTH = Units.inchesToMeters(26.0);
 
+  public static final int TURRET_CAN_ID = 17;
+  public static final double TURRET_GEAR_RATIO = 180;
+
+  public static final double TURRET_ROTATION_TOLERANCE = 0.035;
+
+  public static final double TURRET_DEADBAND = 0.2;
+  // In traditional coordinates, 0* is to the right. In robot coords, it is directly in front.
+  public static final double TURRET_ZERO_OFFSET = -90 / (double) 180 * Math.PI;
+
   public static enum Mode {
     /** Running on a real robot. */
     REAL,
