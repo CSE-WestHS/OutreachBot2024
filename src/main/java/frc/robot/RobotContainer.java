@@ -150,7 +150,7 @@ public class RobotContainer {
         Commands.run(
             () ->
                 drive.CurvatureDrive(
-                    (applyDeadband(-controller.getLeftY())), applyDeadband(-controller.getLeftX() / 3 )),
+                    ((controller.getRightTriggerAxis())), applyDeadband(-controller.getLeftX() / 2)),
             drive));
     turret.setDefaultCommand(
         new GotoPosition(
@@ -168,6 +168,14 @@ public class RobotContainer {
     controller
         .x()
         .whileTrue(Commands.startEnd(() -> intake.runVelocity(2500), intake::stop, intake));
+    controller
+        .leftTrigger()
+        .whileTrue(
+            Commands.run(
+                () ->
+                    drive.CurvatureDrive(
+                        -controller.getLeftTriggerAxis(),
+                        applyDeadband(controller.getLeftX() / 2))));
   }
 
   /**
