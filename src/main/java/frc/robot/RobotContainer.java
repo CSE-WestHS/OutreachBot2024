@@ -155,8 +155,7 @@ public class RobotContainer {
         Commands.run(
             () ->
                 drive.CurvatureDrive(
-                    /*-controller.getLeftY()*/ (controller.getLeftTriggerAxis()),
-                    applyDeadband(-controller.getRightY() / 2)),
+                    ((controller.getRightTriggerAxis())), applyDeadband(-controller.getLeftX() / 2)),
             drive));
 <<<<<<< HEAD
     // runs the right trigger of the drive controls
@@ -164,7 +163,7 @@ public class RobotContainer {
     turret.setDefaultCommand(
         new GotoPosition(
             turret, /*Math.atan2(controller.getLeftY(), controller.getLeftX())*/
-            new CoordinateSource(controller::getLeftX, controller::getLeftY)));
+            new CoordinateSource(controller::getRightX, controller::getRightY)));
     controller
         .a()
         .whileTrue(
@@ -179,11 +178,12 @@ public class RobotContainer {
         .whileTrue(Commands.startEnd(() -> intake.runVelocity(2500), intake::stop, intake));
 >>>>>>> main
     controller
-        .rightTrigger()
+        .leftTrigger()
         .whileTrue(
             Commands.run(
                 () ->
                     drive.CurvatureDrive(
+<<<<<<< HEAD
                         -controller.getRightTriggerAxis(),
                         applyDeadband(-controller.getRightY() / 2))));
     // runs flywheel --may be removed in future
@@ -201,6 +201,10 @@ public class RobotContainer {
     controller
         .x()
         .whileTrue(Commands.runEnd(() -> intake.runVelocity(2500), intake::stop, shooter));
+=======
+                        -controller.getLeftTriggerAxis(),
+                        applyDeadband(controller.getLeftX() / 2))));
+>>>>>>> main
   }
 
   /**
