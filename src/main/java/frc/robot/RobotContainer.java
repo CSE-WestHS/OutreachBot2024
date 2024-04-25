@@ -21,11 +21,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-<<<<<<< HEAD
 import frc.robot.Commands.ShooterCommands.*;
-=======
 import frc.robot.Commands.TurretCommands.GotoPosition;
->>>>>>> main
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeIO;
 import frc.robot.subsystems.Intake.IntakeIOSim;
@@ -157,9 +154,6 @@ public class RobotContainer {
                 drive.CurvatureDrive(
                     ((controller.getRightTriggerAxis())), applyDeadband(-controller.getLeftX() / 2)),
             drive));
-<<<<<<< HEAD
-    // runs the right trigger of the drive controls
-=======
     turret.setDefaultCommand(
         new GotoPosition(
             turret, /*Math.atan2(controller.getLeftY(), controller.getLeftX())*/
@@ -176,35 +170,14 @@ public class RobotContainer {
     controller
         .x()
         .whileTrue(Commands.startEnd(() -> intake.runVelocity(2500), intake::stop, intake));
->>>>>>> main
     controller
         .leftTrigger()
         .whileTrue(
             Commands.run(
                 () ->
                     drive.CurvatureDrive(
-<<<<<<< HEAD
-                        -controller.getRightTriggerAxis(),
-                        applyDeadband(-controller.getRightY() / 2))));
-    // runs flywheel --may be removed in future
-    controller
-        .a()
-        .whileTrue(
-            Commands.startEnd(
-                () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
-    // test controls
-    // controller.b().whileTrue(new ShootBall(shooter));
-    // controller.x().whileTrue(new IntakeStart(intake));
-    controller
-        .b()
-        .whileTrue(Commands.runEnd(() -> shooter.runVelocity(2500), shooter::stop, shooter));
-    controller
-        .x()
-        .whileTrue(Commands.runEnd(() -> intake.runVelocity(2500), intake::stop, shooter));
-=======
                         -controller.getLeftTriggerAxis(),
                         applyDeadband(controller.getLeftX() / 2))));
->>>>>>> main
   }
 
   /**
