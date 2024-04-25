@@ -22,7 +22,9 @@ public class DefaultStopIntake extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() { intake.stop(); } //stops intake on run 
+  public void execute() {
+    intake.stop();
+  } // stops intake on run
 
   // Called once the command ends or is interrupted.
   @Override
