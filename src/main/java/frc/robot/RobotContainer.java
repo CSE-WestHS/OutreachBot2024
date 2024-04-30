@@ -15,6 +15,8 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,6 +45,7 @@ import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
 import frc.robot.util.CoordinateSource;
+import frc.robot.util.PositionMode;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -155,7 +158,12 @@ public class RobotContainer {
     turret.setDefaultCommand(
         new GotoPosition(
             turret, /*Math.atan2(controller.getLeftY(), controller.getLeftX())*/
-            new CoordinateSource(controller::getRightX, controller::getRightY)));
+            new CoordinateSource(controller::getRightX, controller::getRightY),
+            PositionMode.FIELD_RELATIVE,
+            () -> {
+              return (drive.getPose().getRotation().getRadians()
+                  + ((DriverStation.getAlliance().get() == Alliance.Red) ? Math.PI : 0));
+            }));
     controller
         .a()
         .whileTrue(
