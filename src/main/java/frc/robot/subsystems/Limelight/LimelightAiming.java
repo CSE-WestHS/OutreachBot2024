@@ -4,19 +4,28 @@
 
 package frc.robot.subsystems.Limelight;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.subsystems.Turret.Turret;
 
 /** Add your docs here. */
 public class LimelightAiming {
+  public static final Pose2d AprilTagPose = new Pose2d();
   private static NetworkTable table = NetworkTableInstance.getDefault().getTable("");
   /**
    * @return april tag heading
    */
-  public double getAprilTagHeading() {
+  public static double getAprilTagHeading() {
     double xOffset = table.getValue("tx").getDouble();
-
     return 90 - xOffset;
+  }
+
+  public static double getAprilTagHeading(Turret turret) {
+    double xOffset =
+        AprilTagPose.getRotation().getDegrees() - Units.radiansToDegrees(turret.getPosition());
+    return Units.degreesToRadians(90 - xOffset);
   }
   /**
    * @return distance to target
