@@ -153,7 +153,8 @@ public class RobotContainer {
         Commands.run(
             () ->
                 drive.CurvatureDrive(
-                    ((controller.getRightTriggerAxis())), applyDeadband(-controller.getLeftX() / 2)),
+                    ((controller.getRightTriggerAxis())),
+                    applyDeadband(-controller.getLeftX() / 2)),
             drive));
     turret.setDefaultCommand(
         new GotoPosition(
