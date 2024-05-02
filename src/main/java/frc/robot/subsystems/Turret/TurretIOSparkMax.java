@@ -34,7 +34,6 @@ public class TurretIOSparkMax implements TurretIO {
 
   public TurretIOSparkMax() {
     turret.restoreFactoryDefaults();
-
     turret.setCANTimeout(250);
 
     turret.setInverted(false);

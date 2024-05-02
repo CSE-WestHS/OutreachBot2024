@@ -21,11 +21,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-<<<<<<< Updated upstream
 import frc.robot.Commands.ShooterCommands.*;
 import frc.robot.Commands.TurretCommands.GotoPosition;
-=======
->>>>>>> Stashed changes
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeIO;
 import frc.robot.subsystems.Intake.IntakeIOSim;
@@ -47,6 +44,7 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
+import frc.robot.util.CoordinateSource;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
@@ -161,7 +159,18 @@ public class RobotContainer {
             drive));
     turret.setDefaultCommand(
         Commands.run(
-            () -> turret.setTargetPosition(LimelightAiming.getAprilTagHeading(turret)), turret));
+            () -> turret.setTargetPosition(-LimelightAiming.getAprilTagHeading(turret)), turret));
+    // turret.setDefaultCommand( // closest implementation
+    //     new GotoPosition(
+    //         turret,
+    //         new CoordinateSource(
+    //             () -> LimelightAiming.getX(turret), () -> LimelightAiming.getY(turret))));
+    controller
+        .rightStick()
+        .whileTrue(
+            new GotoPosition(
+                turret, /*Math.atan2(controller.getLeftY(), controller.getLeftX())*/
+                new CoordinateSource(controller::getRightX, controller::getRightY)));
     controller
         .a()
         .whileTrue(

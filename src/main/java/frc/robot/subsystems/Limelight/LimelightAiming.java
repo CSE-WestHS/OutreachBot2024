@@ -9,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.Turret.Turret;
+import frc.robot.subsystems.drive.Drive;
 
 /** Add your docs here. */
 public class LimelightAiming {
@@ -23,10 +24,25 @@ public class LimelightAiming {
   }
 
   public static double getAprilTagHeading(Turret turret) {
-    double xOffset =
-        AprilTagPose.getRotation().getDegrees() - Units.radiansToDegrees(turret.getPosition());
-    return Units.degreesToRadians(90 - xOffset);
+    double turretangle = turret.getPosition();
+    if (Units.radiansToDegrees(turret.getPosition()) > 360) {
+      turretangle = Units.degreesToRadians((360 * (turret.getPosition() % 360)));
+    }
+    if (Math.abs(Drive.odometry.getPoseMeters().getRotation().getDegrees()
+            - AprilTagPose.getRotation().getDegrees())
+        < 15) {
+          return turretangle;
+    }
+    else {
+      if (Math.abs(Drive.odometry.getPoseMeters().getRotation().getDegrees() - AprilTagPose.getRotation().getDegrees()) >= 180){
+        return AprilTagPose.getRotation().getRadians() - Units.degreesToRadians(180);
+      }
+      else if (/*fix */true) {
+
+      }
+    }
   }
+
   /**
    * @return distance to target
    */
