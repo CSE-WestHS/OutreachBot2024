@@ -17,6 +17,7 @@ public class LimelightAiming {
   public static final Pose2d AprilTagPose = new Pose2d().rotateBy(new Rotation2d().fromDegrees(90));
   private static NetworkTable table = NetworkTableInstance.getDefault().getTable("");
   private static boolean proccessedOnce = false;
+  private static double lastTurret = 0;
   /**
    * @return april tag heading
    */
@@ -64,12 +65,16 @@ public class LimelightAiming {
         && !proccessedOnce) {
       return 0;
     } else if (Drive.odometry.getPoseMeters().getX() > AprilTagPose.getY()
-        && Units.radiansToDegrees(turretangle) < -(AprilTagPose.getRotation().getDegrees() + 90)) {
+        && Math.abs(
+                Drive.odometry.getPoseMeters().getRotation().getDegrees()
+                    - AprilTagPose.getRotation().getDegrees())
+            < 30) {
       return turretangle - Units.degreesToRadians(90);
     }
     // if above logic is all false set processedOnce as false
     else {
       proccessedOnce = false;
+      
       return 0;
     }
   }
