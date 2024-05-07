@@ -159,7 +159,7 @@ public class RobotContainer {
             drive));
     turret.setDefaultCommand(
         Commands.run(
-            () -> turret.setTargetPosition(-LimelightAiming.getAprilTagHeading(turret)), turret));
+            () -> turret.setTargetPosition(LimelightAiming.getAprilTagHeading(turret)), turret));
     // turret.setDefaultCommand( // closest implementation
     //     new GotoPosition(
     //         turret,
