@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.Limelight;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -16,14 +17,15 @@ import frc.robot.subsystems.drive.Drive;
 public class LimelightAiming {
   public static final Pose2d AprilTagPose = new Pose2d().rotateBy(new Rotation2d().fromDegrees(90));
   private static NetworkTable table = NetworkTableInstance.getDefault().getTable("");
-  private static boolean proccessedOnce = false;
   private static double lastTurret = 0;
+  private static PIDController pidController = new PIDController(0.05, 0, 0);
   /**
    * @return april tag heading
    */
   public static double getAprilTagHeading() {
     double xOffset = table.getValue("tx").getDouble();
-    return 90 - xOffset;
+    if (xOffset == -1) { return 90; }
+    else { return 90 - xOffset; }
   }
   /**
    * @param turret object
@@ -43,39 +45,45 @@ public class LimelightAiming {
                 -Drive.odometry.getPoseMeters().getRotation().getDegrees()
                     - AprilTagPose.getRotation().getDegrees())
             < 30
-        && !proccessedOnce
         && Drive.odometry.getPoseMeters().getY() > AprilTagPose.getX()) {
-      proccessedOnce = true;
-      return -(turretangle - (1.571 / 6));
+      if (lastTurret == turretangle) {
+        return -(turretangle - (1.571 / 400));
+      } else {
+        return turretangle;
+      }
       // if facing the same heading as the april tag: turn 180
     } else if (Math.abs(
-                -Drive.odometry.getPoseMeters().getRotation().getDegrees()
+                Drive.odometry.getPoseMeters().getRotation().getDegrees()
                     - AprilTagPose.getRotation().getDegrees())
-            >= 180
+            <= 30
         && Drive.odometry.getPoseMeters().getY() > AprilTagPose.getX() // rotated so different
-        && !proccessedOnce) {
-      proccessedOnce = true;
-      return turretangle - Units.degreesToRadians(180);
-
-    } else if (Math.abs(
+        && Math.abs(turretangle - -Drive.odometry.getPoseMeters().getRotation().getRadians())
+            <= 30) {
+      if (lastTurret == turretangle) {
+        lastTurret = turretangle;
+        return turretangle - Units.degreesToRadians(180);
+      } else {
+        lastTurret = turretangle;
+        return (turretangle);
+      }
+    }
+    if (Math.abs(
                 -Drive.odometry.getPoseMeters().getRotation().getDegrees()
                     - AprilTagPose.getRotation().getDegrees())
             >= 180
         && Drive.odometry.getPoseMeters().getY() < AprilTagPose.getX() // rotated so different
-        && !proccessedOnce) {
-      return 0;
+    ) {
+      lastTurret = turretangle;
+      return turretangle - Units.degreesToRadians(180);
     } else if (Drive.odometry.getPoseMeters().getX() > AprilTagPose.getY()
         && Math.abs(
                 Drive.odometry.getPoseMeters().getRotation().getDegrees()
                     - AprilTagPose.getRotation().getDegrees())
             < 30) {
+      lastTurret = turretangle;
       return turretangle - Units.degreesToRadians(90);
-    }
-    // if above logic is all false set processedOnce as false
-    else {
-      proccessedOnce = false;
-      
-      return 0;
+    } else {
+      return turretangle + Units.degreesToRadians(-90);
     }
   }
 
