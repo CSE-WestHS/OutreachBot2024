@@ -50,7 +50,7 @@ public class AprilTagSim {
     currentHeading = getRestrictedAngle(currentHeading);
     double headingDiff = atRotation - currentHeading;
     // get heading that we need to head to
-    if (Math.abs(headingDiff) < 30) {
+    if ((headingDiff) < 30) {
       return Units.degreesToRadians(currentHeading);
     } else {
       if (headingDiff > 0) {
