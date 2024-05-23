@@ -15,7 +15,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -159,18 +158,20 @@ public class RobotContainer {
                     ((controller.getRightTriggerAxis())),
                     applyDeadband(-controller.getLeftX() / 2)),
             drive));
-    turret.setDefaultCommand(
-        Commands.run(
-            () ->
-                turret.setTargetPosition(
-                    AprilTagSim.calculateNewHeading(
-                        Units.radiansToDegrees(turret.getPosition()), turret)),
-            turret));
+    turret.setDefaultCommand(Commands.run(() -> turret.setTargetPosition(0), turret));
     // turret.setDefaultCommand( // closest implementation
     //     new GotoPosition(
     //         turret,
     //         new CoordinateSource(
     //             () -> LimelightAiming.getX(turret), () -> LimelightAiming.getY(turret))));
+    controller
+        .y()
+        .whileTrue(
+            Commands.run(
+                () ->
+                    turret.setTargetPosition(
+                        AprilTagSim.calculateNewHeading(turret.getPosition(), turret)),
+                turret));
     controller
         .rightStick()
         .whileTrue(
