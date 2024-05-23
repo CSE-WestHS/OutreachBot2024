@@ -13,8 +13,14 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class LimelightAiming {
   public static final Pose2d AprilTagPose = new Pose2d().rotateBy(new Rotation2d().fromDegrees(90));
   private static NetworkTable table = NetworkTableInstance.getDefault().getTable("");
-  private static double lastTurret = 0;
-
+   /**
+    * 
+    * @return heading of april tag
+    */
+  public double getRealheading() { //this is not tested
+    double tx = table.getEntry("tx").getDouble(0);
+    return 90 - tx;
+  }
   /**
    * @return distance to target in inches
    */
