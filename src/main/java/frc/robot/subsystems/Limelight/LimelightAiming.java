@@ -24,8 +24,11 @@ public class LimelightAiming {
    */
   public static double getAprilTagHeading() {
     double xOffset = table.getValue("tx").getDouble();
-    if (xOffset == -1) { return 90; }
-    else { return 90 - xOffset; }
+    if (xOffset == -1) {
+      return 90;
+    } else {
+      return 90 - xOffset;
+    }
   }
   /**
    * @param turret object

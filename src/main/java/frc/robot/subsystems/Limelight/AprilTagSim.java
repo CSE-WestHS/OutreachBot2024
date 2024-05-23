@@ -5,8 +5,52 @@
 package frc.robot.subsystems.Limelight;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
 public class AprilTagSim {
-  Pose2d apriltag = new Pose2d();
+  public static Pose2d apriltag = LimelightAiming.AprilTagPose;
+
+  public static double getPose() {
+    return apriltag.getRotation().getDegrees();
+  }
+
+  public static double getRestrictedAngle(double currentAngle) {
+    if (currentAngle <= 180 || currentAngle >= -179) {
+      return currentAngle;
+    }
+    currentAngle %= 360;
+    currentAngle = (currentAngle + 360) % 360;
+    if (currentAngle > 180) {
+      currentAngle -= 360;
+    }
+    return currentAngle;
+  }
+  /**
+   * 
+   * @param currentHeading
+   * @return calculated heading based on april tag rotation
+   * @see degrees use degrees when passing in current heading
+   */
+  public static double calculateNewHeading(double currentHeading) {
+    // get current heading
+    double atRotation = getPose();
+
+    // get haeding difference
+    currentHeading = getRestrictedAngle(currentHeading);
+    double headingDiff = atRotation - currentHeading;
+    // get heading that we need to head to
+    if (Math.abs(headingDiff) < 30) {
+      return Units.degreesToRadians(currentHeading);
+    } else {
+      if (headingDiff > 0) {
+        return Units.degreesToRadians(currentHeading + headingDiff);
+
+      } else if (headingDiff < 0) {
+        return Units.degreesToRadians(currentHeading + -headingDiff);
+      } else {
+        return Units.degreesToRadians(currentHeading);
+      }
+    }
+  }
 }

@@ -58,14 +58,14 @@ public class Intake extends SubsystemBase {
                 null,
                 null,
                 null,
-                (state) -> Logger.recordOutput("Flywheel/SysIdState", state.toString())),
+                (state) -> Logger.recordOutput("Intake/SysIdState", state.toString())),
             new SysIdRoutine.Mechanism((voltage) -> runVolts(voltage.in(Volts)), null, this));
   }
 
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Flywheel", inputs);
+    Logger.processInputs("Intake", inputs);
   }
 
   /** Run open loop at the specified voltage. */
@@ -79,7 +79,7 @@ public class Intake extends SubsystemBase {
     io.setVelocity(velocityRadPerSec, ffModel.calculate(velocityRadPerSec));
 
     // Log flywheel setpoint
-    Logger.recordOutput("Flywheel/SetpointRPM", velocityRPM);
+    Logger.recordOutput("Intake/SetpointRPM", velocityRPM);
   }
 
   /** Stops the flywheel. */

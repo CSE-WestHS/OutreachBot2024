@@ -65,7 +65,7 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Flywheel", inputs);
+    Logger.processInputs("Shooter", inputs);
   }
 
   /** Run open loop at the specified voltage. */

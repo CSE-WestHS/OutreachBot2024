@@ -15,6 +15,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +28,7 @@ import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeIO;
 import frc.robot.subsystems.Intake.IntakeIOSim;
 import frc.robot.subsystems.Intake.IntakeIOSparkMax;
+import frc.robot.subsystems.Limelight.AprilTagSim;
 import frc.robot.subsystems.Limelight.LimelightAiming;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterIO;
@@ -159,7 +161,10 @@ public class RobotContainer {
             drive));
     turret.setDefaultCommand(
         Commands.run(
-            () -> turret.setTargetPosition(LimelightAiming.getAprilTagHeading(turret)), turret));
+            () ->
+                turret.setTargetPosition(
+                    AprilTagSim.calculateNewHeading(Units.radiansToDegrees(turret.getPosition()))),
+            turret));
     // turret.setDefaultCommand( // closest implementation
     //     new GotoPosition(
     //         turret,
