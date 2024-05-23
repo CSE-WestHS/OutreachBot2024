@@ -163,7 +163,8 @@ public class RobotContainer {
         Commands.run(
             () ->
                 turret.setTargetPosition(
-                    AprilTagSim.calculateNewHeading(Units.radiansToDegrees(turret.getPosition()))),
+                    AprilTagSim.calculateNewHeading(
+                        Units.radiansToDegrees(turret.getPosition()), turret)),
             turret));
     // turret.setDefaultCommand( // closest implementation
     //     new GotoPosition(
