@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.Limelight;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
@@ -15,7 +14,6 @@ public class LimelightAiming {
   public static final Pose2d AprilTagPose = new Pose2d().rotateBy(new Rotation2d().fromDegrees(90));
   private static NetworkTable table = NetworkTableInstance.getDefault().getTable("");
   private static double lastTurret = 0;
-  private static PIDController pidController = new PIDController(0.05, 0, 0);
 
   /**
    * @return distance to target in inches

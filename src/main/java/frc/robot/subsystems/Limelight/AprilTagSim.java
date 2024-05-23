@@ -6,7 +6,6 @@ package frc.robot.subsystems.Limelight;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
-import frc.robot.subsystems.Turret.Turret;
 import frc.robot.subsystems.drive.Drive;
 
 /** Add your docs here. */
@@ -42,7 +41,7 @@ public class AprilTagSim {
    * @return calculated heading based on april tag rotation
    * @see degrees use degrees when passing in current heading
    */
-  public static double calculateNewHeading(double currentHeading, Turret turret) {
+  public static double calculateNewHeading(double currentHeading) {
     //angle tolerance for turret accuracy
     double tolerance = 15;
     // get current heading

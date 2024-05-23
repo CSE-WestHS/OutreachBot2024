@@ -170,7 +170,7 @@ public class RobotContainer {
             Commands.run(
                 () ->
                     turret.setTargetPosition(
-                        AprilTagSim.calculateNewHeading(turret.getPosition(), turret)),
+                        AprilTagSim.calculateNewHeading(turret.getPosition())),
                 turret));
     controller
         .rightStick()
