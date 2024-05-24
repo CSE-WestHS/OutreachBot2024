@@ -23,17 +23,17 @@ public class AprilTagSim {
    * @see degrees make sure that angle is in degrees
    */
   public static double getRestrictedAngle(double currentAngle) {
-    //checks if angle is within bounds
-    if (currentAngle <= 180 || currentAngle >= -179) { 
+    // checks if angle is within bounds
+    if (currentAngle <= 180 || currentAngle >= -179) {
       return currentAngle;
     }
-    //if not: get it there
+    // if not: get it there
     currentAngle %= 360;
     currentAngle = (currentAngle + 360) % 360;
     if (currentAngle > 180) {
       currentAngle -= 360;
     }
-    //return current angle
+    // return current angle
     return currentAngle;
   }
   /**
@@ -42,31 +42,35 @@ public class AprilTagSim {
    * @see degrees use degrees when passing in current heading
    */
   public static double calculateNewHeading(double currentHeading) {
-    //angle tolerance for turret accuracy
+    // angle tolerance for turret accuracy
     double tolerance = 15;
     // get current heading
     double atRotation = getPose();
-    //sets offset to the difference between the current drive heading and the april tag
-    //heading. Then makes the magnitude opposite.
-    //This is because the drive odometry is related to the turret odometry.
+    // sets offset to the difference between the current drive heading and the april tag
+    // heading. Then makes the magnitude opposite.
+    // This is because the drive odometry is related to the turret odometry.
     double angleOffset =
         Units.degreesToRadians(
             -(Drive.odometry.getPoseMeters().getRotation().getDegrees() - atRotation));
     // get haeding difference
     currentHeading = getRestrictedAngle(currentHeading);
-    //calculates heading difference
+    // calculates heading difference
     double headingDiff = atRotation - currentHeading;
     // get heading that we need to head to
+    
 
-    //checks if heading difference is within tolerance
+    // checks if heading difference is within tolerance
     if ((headingDiff) < tolerance) {
-      return Units.degreesToRadians(currentHeading); //returns current heading
+      return Units.degreesToRadians(currentHeading); // returns current heading
     } else {
-      if (headingDiff > 0) {//checks if angle is above target
-        return Units.degreesToRadians(currentHeading + headingDiff) + angleOffset; //changes heading by the difference and offset
-      } else if (headingDiff < 0) { //checks if magnitude is negative -- meaning it is below target angle
-        return Units.degreesToRadians(currentHeading + -headingDiff) - angleOffset; //changes heading by the difference and offset
-      } else { //if it is equal return current heading
+      if (headingDiff > 0) { // checks if angle is above target
+        return Units.degreesToRadians(currentHeading + headingDiff)
+            + angleOffset; // changes heading by the difference and offset
+      } else if (headingDiff
+          < 0) { // checks if magnitude is negative -- meaning it is below target angle
+        return Units.degreesToRadians(currentHeading + -headingDiff)
+            - angleOffset; // changes heading by the difference and offset
+      } else { // if it is equal return current heading
         return Units.degreesToRadians(currentHeading);
       }
     }
